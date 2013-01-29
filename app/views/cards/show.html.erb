@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Task:</b>
+  <%= @card.task %>
+</p>
+
+<p>
+<b>Code:</b></br/>
+	<% @card.code.split(/\r\n/).each_with_index do |line, index| %>
+		<div id="line_<%= index %>" class="code_snippet"><% line.split.each_with_index do |word, index2| %><div id="word_<%= index2 %>" class="code_snippet"><%= word %></div><% end %></div>
+	<% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_card_path(@card) %> |
+<%= link_to 'Back', cards_path %>
