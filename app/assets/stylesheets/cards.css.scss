@@ -2,7 +2,42 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div.code_snippet {
-	height: 18px;
+div#code {
+	width: 800px;
+	border: solid black 5px;
+}
+
+div#code ol {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 1em;
+	text-indent: -1em;
+	counter-reset: line-number;
+}
+
+div#code ol li {
+	height: 15px;
+	line-height: 15px;
+}
+
+div#code ol li:before {
+	content: counter(line-number, decimal-leading-zero);
+	counter-increment: line-number;
+	font-family: "Courier New", Courier, monospace;
+	padding-right: 2em;
+	background: gray;
+	color: white;
+}
+
+div#code ol li:nth-child(even) {
+	background: lightgray;
+}
+
+span.code_snippet {
 	white-space: pre;
+	font-family: "Courier New", Courier, monospace;
+}
+
+.highlight {
+	background: red;
 }

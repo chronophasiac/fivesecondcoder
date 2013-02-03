@@ -7,10 +7,15 @@
 
 <p>
 <b>Code:</b></br/>
-	<% @card.code.split(/\r\n/).each_with_index do |line, index| %>
-		<div id="line_<%= index %>" class="code_snippet"><% line.split.each_with_index do |word, index2| %><div id="word_<%= index2 %>" class="code_snippet"><%= word %></div><% end %></div>
-	<% end %>
 </p>
+
+<div id="code">
+<ol>
+	<% @card.code.split(/\r\n/).each_with_index do |line, line_index| %>
+		<li><% line.split(/(\W)|(\s)/).each_with_index do |segment, segment_index| %><span id= "line_<%= line_index %>_segment_<%= segment_index %>" class="code_snippet"><%= segment %></span><% end %></li>
+	<% end %>
+</ol>
+</div>
 
 
 <%= link_to 'Edit', edit_card_path(@card) %> |
