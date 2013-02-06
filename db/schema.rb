@@ -11,13 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130126224002) do
+ActiveRecord::Schema.define(:version => 20130205234934) do
+
+  create_table "answers", :force => true do |t|
+    t.integer  "line"
+    t.integer  "substring"
+    t.integer  "card_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "cards", :force => true do |t|
     t.string   "task"
     t.text     "code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "split_schema"
   end
 
 end
