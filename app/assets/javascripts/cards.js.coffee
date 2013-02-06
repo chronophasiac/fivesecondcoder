@@ -4,8 +4,7 @@
 
 $(document).ready ->
 	$('.code_snippet').click ->
-		id = $(this).attr('id').split(" ")
-		resp = id.map (str) ->
+		resp = $(this).attr('id').split(" ").map (str) ->
 			parseInt(str)
 		correctAnswer = false
 		answers.forEach (answer) ->
