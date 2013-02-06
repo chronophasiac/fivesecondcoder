@@ -7,9 +7,13 @@ $(document).ready ->
 		id = $(this).attr('id').split(" ")
 		resp = id.map (str) ->
 			parseInt(str)
+		correctAnswer = false
 		answers.forEach (answer) ->
 			if resp[0] == answer[0] && resp[1] == answer[1]
-				alert("correct")
+				correctAnswer = true
+				alert("Correct!")
+		if !correctAnswer
+			alert("Try Again")
 
 	$('.code_snippet').hover ->
 		$(this).toggleClass("highlight")
