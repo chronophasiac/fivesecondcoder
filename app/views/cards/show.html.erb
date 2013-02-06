@@ -1,3 +1,7 @@
+<%= javascript_tag do %>
+	window.answers = <%= raw @card.answers.select("line, substring").map{|a| [a.line, a.substring]}.to_json %>
+<% end %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -11,8 +15,8 @@
 
 <div id="code">
 <ol>
-	<% @card.code.split(/\r\n/).each_with_index do |line, line_index| %>
-		<li><% line.split(/(\W)|(\s)/).each_with_index do |segment, segment_index| %><span id= "line_<%= line_index %>_segment_<%= segment_index %>" class="code_snippet"><%= segment %></span><% end %></li>
+	<% @card.split_lines.each_with_index do |line, line_index| %>
+		<li><% @card.split_substrings(line).each_with_index do |substring, substring_index| %><span id= "<%= line_index + 1 %> <%= substring_index + 1 %>" class="code_snippet"><%= substring %></span><% end %></li>
 	<% end %>
 </ol>
 </div>

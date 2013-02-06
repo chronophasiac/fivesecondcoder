@@ -4,7 +4,12 @@
 
 $(document).ready ->
 	$('.code_snippet').click ->
-		alert($(this).attr('id'))
+		id = $(this).attr('id').split(" ")
+		resp = id.map (str) ->
+			parseInt(str)
+		answers.forEach (answer) ->
+			if resp[0] == answer[0] && resp[1] == answer[1]
+				alert("correct")
 
 	$('.code_snippet').hover ->
 		$(this).toggleClass("highlight")
