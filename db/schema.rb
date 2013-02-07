@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205234934) do
+ActiveRecord::Schema.define(:version => 20130207224225) do
 
   create_table "answers", :force => true do |t|
     t.integer  "line"
@@ -24,9 +24,16 @@ ActiveRecord::Schema.define(:version => 20130205234934) do
   create_table "cards", :force => true do |t|
     t.string   "task"
     t.text     "code"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.string   "split_schema"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "split_schema_id"
+  end
+
+  create_table "split_schemas", :force => true do |t|
+    t.string   "name"
+    t.string   "regex"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end
