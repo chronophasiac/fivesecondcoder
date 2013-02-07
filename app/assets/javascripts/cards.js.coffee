@@ -13,6 +13,3 @@ $(document).ready ->
 				alert("Correct!")
 		if !correctAnswer
 			alert("Try Again")
-
-	$('.code_snippet').hover ->
-		$(this).toggleClass("highlight")

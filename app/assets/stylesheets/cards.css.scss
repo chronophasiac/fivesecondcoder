@@ -30,9 +30,8 @@ div#code {
 	span.code_snippet {
 		white-space: pre;
 		font-family: "Courier New", Courier, monospace;
+		&:hover {
+			background: orange
+		}
 	}
-}
-
-.highlight {
-	background: red;
 }
