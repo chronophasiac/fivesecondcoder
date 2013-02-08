@@ -4,12 +4,12 @@
 
 $(document).ready ->
 	$('.code_snippet').click ->
-		resp = $(this).attr('id').split(" ").map (str) ->
-			parseInt(str)
+		resp = $(@).attr('id').split(" ").map (idString) ->
+			parseInt idString
 		correctAnswer = false
 		answers.forEach (answer) ->
 			if resp[0] == answer[0] && resp[1] == answer[1]
 				correctAnswer = true
-				alert("Correct!")
+				alert "Correct!"
 		if !correctAnswer
-			alert("Try Again")
+			alert "Try Again"
