@@ -11,5 +11,4 @@ $(document).ready ->
 			if resp[0] == answer[0] && resp[1] == answer[1]
 				correctAnswer = true
 				alert "Correct!"
-		if !correctAnswer
-			alert "Try Again"
+		alert "Try Again" unless correctAnswer
