@@ -25,6 +25,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'rails-backbone'
 
 group :test do
 	gem 'capybara'

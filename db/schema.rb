@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130207224225) do
+ActiveRecord::Schema.define(:version => 20130219232927) do
 
   create_table "answers", :force => true do |t|
     t.integer  "line"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20130207224225) do
     t.string   "regex"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.boolean  "is_regex"
   end
 
 end
