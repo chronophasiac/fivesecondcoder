@@ -17,8 +17,19 @@ class Card < ActiveRecord::Base
 		self.split_schema.is_regex ? line.split(/#{self.split_schema.regex}/) : [line]
 	end
 
-	def as_json(options = nil)
-		super(options ||
-					{methods: :split_lines})
+	def tokenized_code
+		code_array = []
+		self.split_lines.each { |line|
+			line_array = []
+			split_substrings(line).each { |substring|
+				line_array.push(substring)
+			}
+			code_array.push(line_array)
+		}
+		code_array
+	end
+
+	def as_json(options = {})
+		super(methods: :tokenized_code, except: :split_schema_id, include: :answers)
 	end
 end

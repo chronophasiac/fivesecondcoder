@@ -1,3 +1,37 @@
 // Place all the styles related to the StaticDeck controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+div#code_window {
+	width: 800px;
+	border: solid black 5px;
+	ol {
+		list-style: none;
+		margin-left: 0;
+		padding-left: 1em;
+		text-indent: -1em;
+		counter-reset: line-number;
+	}
+	li {
+		height: 15px;
+		line-height: 15px;
+		&:before {
+			content: counter(line-number, decimal-leading-zero);
+			counter-increment: line-number;
+			font-family: "Courier New", Courier, monospace;
+			padding-right: 1em;
+			background: gray;
+			color: white;
+		}
+		&:nth-child(even) {
+			background: lightgray;
+		}
+	}
+	span.code_snippet {
+		white-space: pre;
+		font-family: "Courier New", Courier, monospace;
+		&:hover {
+			background: orange
+		}
+	}
+}
