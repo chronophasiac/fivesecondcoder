@@ -1,5 +1,7 @@
 Fivesecondcoder::Application.routes.draw do
-  resources :cards
+  resources :cards do
+		resources :answers
+	end
   get "static_deck/home"
 
 
