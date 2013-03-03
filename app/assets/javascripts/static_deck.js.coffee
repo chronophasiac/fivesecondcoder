@@ -24,13 +24,14 @@ $ ->
 				$(@).addClass('correct_answer')
 			else
 				$(@).addClass('wrong_answer')
-			$('span#current_score').text("#{score}")
+			$('span#current_score').text(score)
 			$('#score_window').addClass('score_complete') if score == answers.length
 
 	loadCard = (e) ->
 		e.preventDefault()
-		$.getJSON '/cards/4/', (data) ->
-			renderSnippet(data.tokenized_code)
-			initializeSnippet(data.answers)
+		$.getJSON '/cards/4/', (card) ->
+			$('div#task').text(card.task)
+			renderSnippet(card.tokenized_code)
+			initializeSnippet(card.answers)
 
 	$("#start").click(loadCard)
