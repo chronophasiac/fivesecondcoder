@@ -35,3 +35,15 @@ div#code_window {
 		}
 	}
 }
+
+.score_complete {
+	color: green;
+}
+
+.correct_answer {
+	background: lightgreen;
+}
+
+.wrong_answer {
+	background: lightpink;
+}
