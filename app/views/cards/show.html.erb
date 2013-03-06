@@ -1,7 +1,7 @@
 <%= javascript_tag do %>
 	window.answers = <%= raw @card.answers.select("line, substring").map{|a| [a.line, a.substring]}.to_json %>
+	window.cardId = <%= raw @card.id.to_json %>
 <% end %>
-
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -14,13 +14,21 @@
 </p>
 
 <div id="code">
-<ol>
-	<% @card.split_lines.each_with_index do |line, line_index| %>
-		<li><% @card.split_substrings(line).each_with_index do |substring, substring_index| %><span id= "<%= line_index + 1 %> <%= substring_index + 1 %>" class="code_snippet"><%= substring %></span><% end %></li>
-	<% end %>
-</ol>
+	<ol>
+		<% @card.split_lines.each_with_index do |line, line_index| %>
+			<li><% @card.split_substrings(line).each_with_index do |substring, substring_index| %><span id= "<%= line_index + 1 %> <%= substring_index + 1 %>" class="code_snippet"><%= substring %></span><% end %></li>
+		<% end %>
+	</ol>
 </div>
 
+<div id="answers">
+	<ol>
+		<% @card.answers.each_with_index do |answer, index| %>
+			<li>Line:<%= answer.line %> Substring:<%= answer.substring %></li>
+		<% end %>
+	</ol>
+</div>
 
 <%= link_to 'Edit', edit_card_path(@card) %> |
-<%= link_to 'Back', cards_path %>
+<%= link_to 'Back', cards_path %> |
+<%= link_to 'Answers', card_answers_path(@card) %>
