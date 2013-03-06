@@ -1,5 +1,6 @@
 Fivesecondcoder::Application.routes.draw do
   resources :cards do
+  	get 'random', :on => :collection
 		resources :answers
 	end
   get "static_deck/home"

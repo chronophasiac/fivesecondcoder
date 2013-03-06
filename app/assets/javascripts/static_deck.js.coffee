@@ -2,6 +2,9 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
+	clearSnippit = ->
+		$('#code').html('<ol></ol>')
+
 	renderSnippet = (codeSnippet) ->
 		codeSnippet.forEach (line, lineIndex) ->
 			htmlLine = ""
@@ -25,13 +28,17 @@ $ ->
 			else
 				$(@).addClass('wrong_answer')
 			$('span#current_score').text(score)
-			$('#score_window').addClass('score_complete') if score == answers.length
+			if score == answers.length
+				$('#score_window').addClass('score_complete')
+				setTimeout(loadCard,500)
 
-	loadCard = (e) ->
-		e.preventDefault()
-		$.getJSON '/cards/4/', (card) ->
+	loadCard = ->
+		$.getJSON '/cards/random/', (card) ->
 			$('div#task').text(card.task)
+			clearSnippit()
 			renderSnippet(card.tokenized_code)
 			initializeSnippet(card.answers)
 
-	$("#start").click(loadCard)
+	$("#start").click (e) ->
+		e.preventDefault()
+		loadCard()

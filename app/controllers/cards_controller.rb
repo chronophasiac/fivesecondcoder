@@ -21,6 +21,17 @@ class CardsController < ApplicationController
     end
   end
 
+  # GET /cards/random/1.json
+  def random
+  	offset = rand(Card.count)
+  	@card = Card.first(:offset => offset)
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @card }
+    end
+  end
+
   # GET /cards/new
   # GET /cards/new.json
   def new
