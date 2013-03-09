@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.hidden {
+	display: none;
+}
+
 div#code_window {
 	width: 800px;
 	border: solid black 5px;
@@ -37,7 +41,7 @@ div#code_window {
 }
 
 .score_complete {
-	color: green;
+	background: green;
 }
 
 .correct_answer {

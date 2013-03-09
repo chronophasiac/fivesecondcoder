@@ -2,20 +2,25 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
-	clearSnippit = ->
-		$('#code').html('<ol></ol>')
-
-	renderSnippet = (codeSnippet) ->
-		codeSnippet.forEach (line, lineIndex) ->
-			htmlLine = ""
-			line.forEach (token, tokenIndex) ->
-				htmlLine += "<span id='#{lineIndex + 1} #{tokenIndex + 1}' class='code_snippet'>#{token}</span>"
-			$('#code').append("<li>#{htmlLine}</li>")
+	renderSnippet = (card) ->
+		$('div#card').fadeOut ->
+			$('div#code_window').removeClass('hidden')
+			$('#score_window').removeClass('score_complete')
+			$('a#start').hide()
+			$('div#task').text(card.task)
+			$('ol#code').html('<ol></ol>')
+			card.tokenized_code.forEach (line, lineIndex) ->
+				htmlLine = ""
+				line.forEach (token, tokenIndex) ->
+					htmlLine += "<span id='#{lineIndex + 1} #{tokenIndex + 1}' class='code_snippet'>#{token}</span>"
+				$('ol#code').append("<li>#{htmlLine}</li>")
+			$('div#card').fadeIn ->
+				initializeSnippet(card.answers)
 
 	initializeSnippet = (answers) ->
 		score = 0
-		$('#score_window').html("Score: <span id='current_score'>#{score}</span> / #{answers.length}")
-		$('.code_snippet').click ->
+		$('div#score_window').html("Score: <span id='current_score'>#{score}</span> / #{answers.length}")
+		$('span.code_snippet').click ->
 			resp = $(@).attr('id').split(" ").map (idString) ->
 				parseInt idString
 			correctAnswer = false
@@ -34,10 +39,7 @@ $ ->
 
 	loadCard = ->
 		$.getJSON '/cards/random/', (card) ->
-			$('div#task').text(card.task)
-			clearSnippit()
-			renderSnippet(card.tokenized_code)
-			initializeSnippet(card.answers)
+			renderSnippet(card)
 
 	$("#start").click (e) ->
 		e.preventDefault()
