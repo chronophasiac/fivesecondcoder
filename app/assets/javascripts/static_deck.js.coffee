@@ -2,25 +2,40 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
-	renderSnippet = (card) ->
-		$('div#card').fadeOut ->
-			$('div#code_window').removeClass('hidden')
-			$('#score_window').removeClass('score_complete')
-			$('a#start').hide()
+
+	$("#start").click (e) ->
+		e.preventDefault()
+		loadCard()
+
+	loadCard = ->
+		$.getJSON '/cards/random/', (card) ->
+			$('div#card').fadeOut ->
+				initializeCard()
+				renderCard(card)
+				$('div#card').fadeIn ->
+					interactifySnippet(card.answers)
+
+	initializeCard = ->
+		$('div#code_window').removeClass('hidden')
+		$('#score_window').removeClass('score_complete')
+		$('a#start').hide()
+		$('ol#code').html('<ol></ol>')
+
+	renderCard = (card) ->
 			$('div#task').text(card.task)
-			$('ol#code').html('<ol></ol>')
 			card.tokenized_code.forEach (line, lineIndex) ->
 				htmlLine = ""
 				line.forEach (token, tokenIndex) ->
+					#replace tabs with double spaces (takes up less horizontal space)
+					if token == "\t" then token = "  "
 					htmlLine += "<span id='#{lineIndex + 1} #{tokenIndex + 1}' class='code_snippet'>#{token}</span>"
 				$('ol#code').append("<li>#{htmlLine}</li>")
-			$('div#card').fadeIn ->
-				initializeSnippet(card.answers)
 
-	initializeSnippet = (answers) ->
+	interactifySnippet = (answers) ->
 		score = 0
 		$('div#score_window').html("Score: <span id='current_score'>#{score}</span> / #{answers.length}")
 		$('span.code_snippet').click ->
+			#parse the element id's into an array of integers
 			resp = $(@).attr('id').split(" ").map (idString) ->
 				parseInt idString
 			correctAnswer = false
@@ -36,11 +51,3 @@ $ ->
 			if score == answers.length
 				$('#score_window').addClass('score_complete')
 				setTimeout(loadCard,500)
-
-	loadCard = ->
-		$.getJSON '/cards/random/', (card) ->
-			renderSnippet(card)
-
-	$("#start").click (e) ->
-		e.preventDefault()
-		loadCard()
