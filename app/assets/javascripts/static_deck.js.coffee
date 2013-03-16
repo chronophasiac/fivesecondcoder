@@ -22,32 +22,33 @@ $ ->
 		$('ol#code').html('<ol></ol>')
 
 	renderCard = (card) ->
-			$('div#task').text(card.task)
-			card.tokenized_code.forEach (line, lineIndex) ->
-				htmlLine = ""
-				line.forEach (token, tokenIndex) ->
-					#replace tabs with double spaces (takes up less horizontal space)
-					if token == "\t" then token = "  "
-					htmlLine += "<span id='#{lineIndex + 1} #{tokenIndex + 1}' class='code_snippet'>#{token}</span>"
-				$('ol#code').append("<li>#{htmlLine}</li>")
+		$('div#task').text(card.task)
+		offset = 0
+		card.tokenized_code.forEach (line, lineIndex) ->
+			htmlLine = ""
+			line.forEach (token, tokenIndex) ->
+				#replace tabs with double spaces (takes up less horizontal space)
+				if token == "\t" then token = "  "
+				htmlLine += "<span id='#{offset}' class='code_snippet'>#{token}</span>"
+				offset++
+			$('ol#code').append("<li>#{htmlLine}</li>")
+		$('div#score_window').html("Score: <span id='current_score'>0</span> / #{card.answers.length}")
 
 	interactifySnippet = (answers) ->
-		score = 0
-		$('div#score_window').html("Score: <span id='current_score'>#{score}</span> / #{answers.length}")
 		$('span.code_snippet').click ->
 			#parse the element id's into an array of integers
-			resp = $(@).attr('id').split(" ").map (idString) ->
-				parseInt idString
+			resp = parseInt $(@).attr('id')
 			correctAnswer = false
 			for answer in answers
-				if resp[0] == answer.line && resp[1] == answer.substring
+				if resp >= answer.start_offset && resp <= answer.end_offset
 					correctAnswer = true
 			if correctAnswer
+				score = parseInt $('span#current_score').text()
 				score++
+				$('span#current_score').text(score)
 				$(@).addClass('correct_answer')
 			else
 				$(@).addClass('wrong_answer')
-			$('span#current_score').text(score)
 			if score == answers.length
 				$('#score_window').addClass('score_complete')
 				setTimeout(loadCard,500)

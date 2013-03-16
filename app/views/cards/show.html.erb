@@ -1,5 +1,5 @@
 <%= javascript_tag do %>
-	window.answers = <%= raw @card.answers.select("line, substring").map{|a| [a.line, a.substring]}.to_json %>
+	window.answers = <%= raw @card.answers.select("start_offset, end_offset").map{|a| [a.start_offset, a.end_offset]}.to_json %>
 	window.cardId = <%= raw @card.id.to_json %>
 <% end %>
 <p id="notice"><%= notice %></p>
@@ -15,8 +15,9 @@
 
 <div id="code">
 	<ol>
-		<% @card.split_lines.each_with_index do |line, line_index| %>
-			<li><% @card.split_substrings(line).each_with_index do |substring, substring_index| %><span id= "<%= line_index + 1 %> <%= substring_index + 1 %>" class="code_snippet"><%= substring %></span><% end %></li>
+		<% offset = 0 %>
+		<% @card.tokenized_code.each do |line| %>
+			<li><% line.each do |substring| %><span id= "<%= offset %>" class="code_snippet"><%= substring == "\t" ? "  " : substring %></span><% offset+= 1 %><% end %></li>
 		<% end %>
 	</ol>
 </div>
@@ -24,7 +25,7 @@
 <div id="answers">
 	<ol>
 		<% @card.answers.each_with_index do |answer, index| %>
-			<li>Line:<%= answer.line %> Substring:<%= answer.substring %></li>
+			<li>Start Offset:<%= answer.start_offset %> End Offset:<%= answer.end_offset %></li>
 		<% end %>
 	</ol>
 </div>

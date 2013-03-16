@@ -2,15 +2,15 @@
 
 <table>
   <tr>
-    <th>Line</th>
-    <th>Substring</th>
+    <th>Start Offset</th>
+    <th>End Offset</th>
     <th></th>
   </tr>
 
 <% @answers.each do |answer| %>
   <tr>
-		<td><%= answer.line %></td>
-		<td><%= answer.substring %></td>
+		<td><%= answer.start_offset %></td>
+		<td><%= answer.end_offset %></td>
     <td><%= link_to 'Show', [@card, answer] %></td>
     <td><%= link_to 'Edit', edit_card_answer_path(@card, answer) %></td>
     <td><%= link_to 'Destroy', [@card, answer], method: :delete, data: { confirm: 'Are you sure?' } %></td>
