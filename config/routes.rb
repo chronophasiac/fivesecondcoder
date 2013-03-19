@@ -4,6 +4,7 @@ Fivesecondcoder::Application.routes.draw do
 		resources :answers
 	end
   get "static_deck/home"
+  root :to => 'static_deck#home'
 
 
   # The priority is based upon order of creation:
