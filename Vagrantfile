@@ -9,7 +9,14 @@ Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "precise32"
 
-  config.vm.provision :shell, path: "bootstrap.sh"
+	# set locale and su to avoid Postgresql encoding issue
+	$script = <<-SCRIPT
+	update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
+	locale-gen en_US.UTF-8
+	sudo su -c "bash /vagrant/vagrant_provision.sh" - root
+	SCRIPT
+
+	config.vm.provision :shell, :inline => $script
 
   config.vm.network :forwarded_port, guest: 3000, host: 3000
 
