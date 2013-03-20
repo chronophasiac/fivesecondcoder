@@ -1,5 +1,5 @@
 <%= javascript_tag do %>
-	window.answers = <%= raw @card.answers.select("start_offset, end_offset").map{|a| [a.start_offset, a.end_offset]}.to_json %>
+	window.cardAnswers = <%= raw @card.answers.select("start_offset, end_offset").map{|a| [a.start_offset, a.end_offset]}.to_json %>
 	window.cardId = <%= raw @card.id.to_json %>
 <% end %>
 <p id="notice"><%= notice %></p>
@@ -13,16 +13,16 @@
 <b>Code:</b></br/>
 </p>
 
-<div id="code">
+<div id="card_code">
 	<ol>
 		<% offset = 0 %>
 		<% @card.tokenized_code.each do |line| %>
-			<li><% line.each do |substring| %><span id= "<%= offset %>" class="code_snippet"><%= substring == "\t" ? "  " : substring %></span><% offset+= 1 %><% end %></li>
+			<li><% line.each do |substring| %><span id= "<%= offset %>" class="card_code_snippet"><%= substring == "\t" ? "  " : substring %></span><% offset+= 1 %><% end %></li>
 		<% end %>
 	</ol>
 </div>
 
-<div id="answers">
+<div id="card_answers">
 	<ol>
 		<% @card.answers.each_with_index do |answer, index| %>
 			<li>Start Offset:<%= answer.start_offset %> End Offset:<%= answer.end_offset %></li>

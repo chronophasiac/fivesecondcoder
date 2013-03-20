@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div#code {
+div#card_code {
 	width: 1200px;
 	border: solid black 5px;
 	ol {
@@ -27,7 +27,7 @@ div#code {
 			background: lightgray;
 		}
 	}
-	span.code_snippet {
+	span.card_code_snippet {
 		white-space: pre;
 		font-family: "Courier New", Courier, monospace;
 		&.correct {

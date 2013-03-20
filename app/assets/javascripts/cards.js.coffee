@@ -3,35 +3,42 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-	#TODO implement new answer detection
-	newAnswers = []
-	awaitingEndOffset = false
-	#TODO fix this
-	startOffset = 0
-	endOffset = 0
-
-	highlightAnswers = ->
+	highlightCardAnswers = (answers) ->
 		for answer in answers
 			answerSpans = [answer[0]..answer[1]]
 			for spanID in answerSpans
-				console.log spanID
 				$("span##{spanID}").addClass('correct')
 
-	highlightAnswers()
-	$('.code_snippet').click ->
-		if awaitingEndOffset
-			endOffset = parseInt $(@).attr('id')
-			awaitingEndOffset = false
-			$.ajax
-				type: 'post'
-				url: "/cards/#{cardId}/answers"
-				data: { answer: { start_offset: startOffset, end_offset: endOffset } }
-				dataType: 'json'
-				success: (json) ->
-					answers.push [startOffset,endOffset]
-					highlightAnswers()
-					$('div#answers ol:last-child').append("<li>Start Offset:#{startOffset} End Offset:#{endOffset}</li>")
-		else
-			startOffset = parseInt $(@).attr('id')
-			awaitingEndOffset = true
+	if $('div#card_code').length
+		newAnswers = []
+		awaitingEndOffset = false
+		startOffset = 0
+		endOffset = 0
+		highlightCardAnswers(cardAnswers)
+
+		$('span.card_code_snippet').click ->
+			if awaitingEndOffset
+				endOffset = parseInt $(@).attr('id')
+				awaitingEndOffset = false
+				newAnswer = { start_offset: startOffset, end_offset: endOffset }
+				fresh = true
+				for cardAnswer in cardAnswers
+					for existingOffset in [cardAnswer[0]..cardAnswer[1]]
+						for newOffset in [startOffset..endOffset]
+							if newOffset == existingOffset then fresh = false
+				if fresh
+					#TODO buffer newAnswers and push to server on user command
+					newAnswers.push newAnswer
+					$.ajax
+						type: 'post'
+						url: "/cards/#{cardId}/answers"
+						data: { answer: newAnswer }
+						dataType: 'json'
+						success: (json) ->
+							cardAnswers.push [startOffset,endOffset]
+							highlightCardAnswers(cardAnswers)
+							$('div#card_answers ol:last-child').append("<li>Start Offset:#{startOffset} End Offset:#{endOffset}</li>")
+			else
+				startOffset = parseInt $(@).attr('id')
+				awaitingEndOffset = true
 
