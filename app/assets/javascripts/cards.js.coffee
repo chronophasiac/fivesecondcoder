@@ -17,6 +17,7 @@ $ ->
 		highlightCardAnswers(cardAnswers)
 
 		$('span.card_code_snippet').click ->
+			$('div#start_prompt,div#end_prompt').toggleClass('hidden')
 			if awaitingEndOffset
 				endOffset = parseInt $(@).attr('id')
 				awaitingEndOffset = false
@@ -41,4 +42,3 @@ $ ->
 			else
 				startOffset = parseInt $(@).attr('id')
 				awaitingEndOffset = true
-
