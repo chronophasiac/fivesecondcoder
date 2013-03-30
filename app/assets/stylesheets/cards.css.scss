@@ -35,10 +35,17 @@ div#card_code {
 		white-space: pre;
 		font-family: "Courier New", Courier, monospace;
 		&.correct {
-			background: green
+			background: green;
+		}
+		&.pending_save {
+			background: orange;
 		}
 		&:hover {
-			background: orange
+			background: lightblue;
 		}
 	}
+}
+
+a.pending_save {
+	color: orange;
 }
