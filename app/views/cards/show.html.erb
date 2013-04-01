@@ -1,5 +1,5 @@
 <%= javascript_tag do %>
-	window.cardAnswers = <%= raw @card.answers.select("start_offset, end_offset").map{|a| [a.start_offset, a.end_offset]}.to_json %>
+	window.cardAnswers = <%= raw @card.answers.select("start_offset, end_offset").to_json %>
 	window.cardId = <%= raw @card.id.to_json %>
 <% end %>
 <p id="notice"><%= notice %></p>
@@ -14,7 +14,8 @@
 </p>
 
 <div id="start_prompt">Click on the start point of the answer.</div>
-<div id="end_prompt" class ="hidden">Now select the end point of the answer.</div>
+<div id="end_prompt" class="hidden">Now select the end point of the answer.</div>
+<div id="overlap_error" class="hidden">Error: answers cannot overlap.</div>
 
 <div id="card_code">
 	<ol>
