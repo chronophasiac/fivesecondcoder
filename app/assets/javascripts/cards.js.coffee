@@ -15,7 +15,7 @@ $ ->
 				for newOffset in [inputAnswer.start_offset..inputAnswer.end_offset]
 					if newOffset == existingOffset
 						return false
-		return true
+		true
 	
 	saveAnswer = (answerPendingSave) ->
 		$.ajax
@@ -27,9 +27,16 @@ $ ->
 				cardAnswers.push answerPendingSave
 				highlightAnswer(answerPendingSave, 'correct', 'pending_save')
 				$('div#card_answers ol:last-child').append("<li>Start Offset:#{answerPendingSave.start_offset} End Offset:#{answerPendingSave.end_offset}</li>")
-				#Remove saved answer from the array of pending answers
+				# Remove saved answer from the array of pending answers
 				answersPendingSave.splice(answersPendingSave.indexOf(answerPendingSave), 1)
 
+	normalizeAnswer = (inputAnswer) ->
+		temp = inputAnswer.start_offset
+		inputAnswer.start_offset = inputAnswer.end_offset
+		inputAnswer.end_offset = temp
+		inputAnswer
+
+	# Ugly hack to detect which page we are on, because of asset pipeline
 	if $('div#card_code').length
 		answersPendingSave = []
 		awaitingEndOffset = false
@@ -43,11 +50,7 @@ $ ->
 			if awaitingEndOffset
 				inputAnswer.end_offset = parseInt $(@).attr('id')
 				awaitingEndOffset = false
-				#Swap start and end offsets if the selection was made right to left
-				if inputAnswer.start_offset > inputAnswer.end_offset
-					temp = inputAnswer.start_offset
-					inputAnswer.start_offset = inputAnswer.end_offset
-					inputAnswer.end_offset = temp
+				normalizeAnswer(inputAnswer) if inputAnswer.start_offset > inputAnswer.end_offset
 				if isOverlap(inputAnswer, answersPendingSave)
 					highlightAnswer(inputAnswer, 'pending_save')
 					answersPendingSave.push inputAnswer
